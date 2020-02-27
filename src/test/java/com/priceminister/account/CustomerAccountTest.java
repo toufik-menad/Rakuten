@@ -1,11 +1,13 @@
 package com.priceminister.account;
 
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
-import com.priceminister.account.implementation.*;
+import com.priceminister.account.implementation.CustomerAccount;
 
 
 /**
@@ -20,8 +22,10 @@ import com.priceminister.account.implementation.*;
  */
 public class CustomerAccountTest {
     
-    Account customerAccount;
-    AccountRule rule;
+    private Account customerAccount;
+    private AccountRule rule;
+    private static final Double valueToAdd = 1.5D;
+    private static final Double valueToWithdraw = 20000D;
 
     /**
      * @throws java.lang.Exception
@@ -36,7 +40,7 @@ public class CustomerAccountTest {
      */
     @Test
     public void testAccountWithoutMoneyHasZeroBalance() {
-        fail("not yet implemented");
+        assertNotNull(this.customerAccount.getBalance());
     }
     
     /**
@@ -44,16 +48,19 @@ public class CustomerAccountTest {
      */
     @Test
     public void testAddPositiveAmount() {
-        fail("not yet implemented");
+    	final Double initialBalance = this.customerAccount.getBalance();
+        this.customerAccount.add(valueToAdd);
+        assertEquals(Double.valueOf(initialBalance + valueToAdd), this.customerAccount.getBalance());
     }
     
     /**
      * Tests that an illegal withdrawal throws the expected exception.
      * Use the logic contained in CustomerAccountRule; feel free to refactor the existing code.
+     * @throws IllegalBalanceException 
      */
-    @Test
-    public void testWithdrawAndReportBalanceIllegalBalance() {
-        fail("not yet implemented");
+    @Test(expected = IllegalBalanceException.class)
+    public void testWithdrawAndReportBalanceIllegalBalance() throws IllegalBalanceException {
+    	this.customerAccount.withdrawAndReportBalance(valueToWithdraw,this.rule);
     }
     
     // Also implement missing unit tests for the above functionalities.
